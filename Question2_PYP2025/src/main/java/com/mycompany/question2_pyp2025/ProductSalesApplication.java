@@ -9,7 +9,8 @@ package com.mycompany.question2_pyp2025;
  * @author bibia
  */
 public class ProductSalesApplication extends javax.swing.JFrame {
-    
+   //declare product sales data in 2d array
+    int[][] productSales = {{300,150,700}, {250,200,600}};
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ProductSalesApplication.class.getName());
 
     /**
@@ -96,7 +97,7 @@ public class ProductSalesApplication extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnLoadActionPerformed
 
     /**
