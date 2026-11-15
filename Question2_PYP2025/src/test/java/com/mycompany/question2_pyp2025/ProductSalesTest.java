@@ -16,18 +16,25 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author bibia
  */
 public class ProductSalesTest {
-   //declare product sales data in 2d array
-    int[][] productSales = {{300,150,700}, {250,200,600}};
-    
     
     @Test
     public void GetSalesOverLimit_ReturnsNumberOfSales(){
-        
+        ProductSales ps = new ProductSales();
+
+        int expected = 2;
+        int actual = ps.GetSalesOverLimit();
+
+        assertEquals(expected, actual);
     }
     
     @Test
     public void GetSalesUnderLimit_ReturnsNumberOfSales(){
+        ProductSales  ps = new ProductSales();
         
+        int expected = 4;
+        int actual = ps.GetSalesUnderLimit();
+        
+        assertEquals(expected, actual);
     }
     
 }

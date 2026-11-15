@@ -49,7 +49,7 @@ public class ProductSales implements IProductSales {
     int underLimit = 0;
         for (int r = 0; r < productSales.length; r++){
             for (int c = 0; c < productSales[r].length; c++){
-                if (productSales[r][c] >= 500){
+                if (productSales[r][c] < 500){
                     underLimit++;
                 }
             }
