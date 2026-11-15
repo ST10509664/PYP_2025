@@ -103,12 +103,12 @@ public class ProductSalesApplication extends javax.swing.JFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
             try (FileWriter writer = new FileWriter("data.txt")) {
-            writer.write("\nDATA LOG");
+            writer.write("DATA LOG");
             writer.write("\n************************");
             writer.write("\nTotal Sales: " + total);
             //round off the double variable
             writer.write(String.format("\nAverage Sales: %.0f%n", average));
-            writer.write("\nSales over limit: " + overLimit);
+            writer.write("Sales over limit: " + overLimit);
             writer.write("\nSales under limit: " + underLimit);
             writer.write("\n************************");
             System.out.println("Data saved successfully.");
