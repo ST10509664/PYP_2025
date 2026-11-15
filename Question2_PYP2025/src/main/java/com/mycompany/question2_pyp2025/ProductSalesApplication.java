@@ -4,6 +4,9 @@
  */
 package com.mycompany.question2_pyp2025;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 /**
  *
  * @author bibia
@@ -11,6 +14,12 @@ package com.mycompany.question2_pyp2025;
 public class ProductSalesApplication extends javax.swing.JFrame {
    //declare product sales data in 2d array
     int[][] productSales = {{300,150,700}, {250,200,600}};
+    //delcare other variables needed
+    private int total = 0;
+    private double average = 0;
+    private int overLimit = 0;
+    private int underLimit = 0;
+    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ProductSalesApplication.class.getName());
 
     /**
@@ -93,11 +102,44 @@ public class ProductSalesApplication extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
+            try (FileWriter writer = new FileWriter("data.txt")) {
+            writer.write("\nDATA LOG");
+            writer.write("\n************************");
+            writer.write("\nTotal Sales: " + total);
+            //round off the double variable
+            writer.write(String.format("\nAverage Sales: %.0f%n", average));
+            writer.write("\nSales over limit: " + overLimit);
+            writer.write("\nSales under limit: " + underLimit);
+            writer.write("\n************************");
+            System.out.println("Data saved successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while saving.");
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
+        total = 0;
+        overLimit = 0;
+        underLimit = 0;
+        int count = 0;
+        int years = 0;
+        for (int r = 0; r < productSales.length; r++){
+            for (int c = 0; c < productSales[r].length; c++){
+                total += productSales[r][c];
+                count++;
+                
+                if (productSales[r][c] >= 500){
+                    overLimit++;
+                }else{
+                    underLimit++;
+                }
+            }
+            years++;
+        }
+        average = total/count;
         
+
     }//GEN-LAST:event_btnLoadActionPerformed
 
     /**
