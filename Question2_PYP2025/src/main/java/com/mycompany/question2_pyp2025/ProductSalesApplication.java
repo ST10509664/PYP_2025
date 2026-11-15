@@ -14,12 +14,6 @@ import java.io.IOException;
 public class ProductSalesApplication extends javax.swing.JFrame {
    //declare product sales data in 2d array
     int[][] productSales = {{300,150,700}, {250,200,600}};
-    //delcare other variables needed
-    private int total = 0;
-    private double average = 0;
-    private int overLimit = 0;
-    private int underLimit = 0;
-    private int years = 0;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ProductSalesApplication.class.getName());
 
@@ -47,6 +41,10 @@ public class ProductSalesApplication extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
+        menuLoad = new javax.swing.JMenuItem();
+        menuSave = new javax.swing.JMenuItem();
+        menuClear = new javax.swing.JMenuItem();
+        menuExit = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Product Sales Application");
@@ -67,6 +65,23 @@ public class ProductSalesApplication extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
+
+        menuLoad.setText("Load Data");
+        menuLoad.addActionListener(this::menuLoadActionPerformed);
+        jMenu2.add(menuLoad);
+
+        menuSave.setText("Save Data");
+        menuSave.addActionListener(this::menuSaveActionPerformed);
+        jMenu2.add(menuSave);
+
+        menuClear.setText("Clear");
+        menuClear.addActionListener(this::menuClearActionPerformed);
+        jMenu2.add(menuClear);
+
+        menuExit.setText("Exit");
+        menuExit.addActionListener(this::menuExitActionPerformed);
+        jMenu2.add(menuExit);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -75,14 +90,18 @@ public class ProductSalesApplication extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(83, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
-                    .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnLoad, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
-                    .addComponent(lblYearsProcessed, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(65, 65, 65))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(75, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1)
+                            .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnLoad, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE))
+                        .addGap(65, 65, 65))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblYearsProcessed, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(73, 73, 73))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -93,64 +112,39 @@ public class ProductSalesApplication extends javax.swing.JFrame {
                 .addComponent(btnSave)
                 .addGap(27, 27, 27)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addComponent(lblYearsProcessed)
-                .addGap(15, 15, 15))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-            try (FileWriter writer = new FileWriter("data.txt")) {
-            writer.write("DATA LOG");
-            writer.write("\n************************");
-            writer.write("\nTotal Sales: " + total);
-            //round off the double variable
-            writer.write(String.format("\nAverage Sales: %.0f%n", average));
-            writer.write("Sales over limit: " + overLimit);
-            writer.write("\nSales under limit: " + underLimit);
-            writer.write("\n************************");
-            System.out.println("Data saved successfully.");
-        } catch (IOException e) {
-            System.out.println("An error occurred while saving.");
-            e.printStackTrace();
-        }
-            
-        txtOutput.setText("DATA LOG");
-        txtOutput.append("\n************************");
-        txtOutput.append("\nTotal Sales: " + total);
-        txtOutput.append(String.format("\nAverage Sales: %.0f", average));
-        txtOutput.append("\nSales over limit: " + overLimit);
-        txtOutput.append("\nSales under limit: " + underLimit);
-        txtOutput.append("\n************************");
-        
-        lblYearsProcessed.setText("Years processed: " + years);
+        saveProductData();
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
-        total = 0;
-        overLimit = 0;
-        underLimit = 0;
-        int count = 0;
-        years = 0;
-        for (int r = 0; r < productSales.length; r++){
-            for (int c = 0; c < productSales[r].length; c++){
-                total += productSales[r][c];
-                count++;
-                
-                if (productSales[r][c] >= 500){
-                    overLimit++;
-                }else{
-                    underLimit++;
-                }
-            }
-            years++;
-        }
-        average = total/count;
-        
-        txtOutput.setText("Data Loaded");
+        loadProductData();
     }//GEN-LAST:event_btnLoadActionPerformed
+
+   
+    private void menuClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuClearActionPerformed
+        txtOutput.setText("");
+        lblYearsProcessed.setText("Years Processed: ");
+    }//GEN-LAST:event_menuClearActionPerformed
+
+    private void menuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuExitActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_menuExitActionPerformed
+
+    private void menuSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSaveActionPerformed
+        saveProductData();
+    }//GEN-LAST:event_menuSaveActionPerformed
+
+    private void menuLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuLoadActionPerformed
+        loadProductData();
+    }//GEN-LAST:event_menuLoadActionPerformed
 
     /**
      * @param args the command line arguments
@@ -177,6 +171,46 @@ public class ProductSalesApplication extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> new ProductSalesApplication().setVisible(true));
     }
 
+    private void loadProductData(){
+                
+        ProductSales ps = new ProductSales();
+        
+        txtOutput.setText("DATA LOG");
+        txtOutput.append("\n************************");
+        txtOutput.append("\nTotal Sales: " + ps.GetTotalSales());
+        txtOutput.append(String.format("\nAverage Sales: %.0f", ps.GetAverageSales()));
+        txtOutput.append("\nSales over limit: " + ps.GetSalesOverLimit());
+        txtOutput.append("\nSales under limit: " + ps.GetSalesUnderLimit());
+        txtOutput.append("\n************************");
+        
+        lblYearsProcessed.setText("Years processed: " + ps.GetProductsProcessed());
+    }
+    
+    private void saveProductData(){
+                
+        ProductSales ps = new ProductSales();
+        
+        try (FileWriter writer = new FileWriter("data.txt")) {
+        writer.write("DATA LOG");
+        writer.write("\n************************");
+        writer.write("\nTotal Sales: " + ps.GetTotalSales());
+        //round off the double variable
+        writer.write(String.format("\nAverage Sales: %.0f", ps.GetAverageSales()));
+        writer.write("Sales over limit: " + ps.GetSalesOverLimit());
+        writer.write("\nSales under limit: " + ps.GetSalesUnderLimit());
+        writer.write("\n************************");
+        System.out.println("Data saved successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while saving.");
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLoad;
     private javax.swing.JButton btnSave;
@@ -185,6 +219,10 @@ public class ProductSalesApplication extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblYearsProcessed;
+    private javax.swing.JMenuItem menuClear;
+    private javax.swing.JMenuItem menuExit;
+    private javax.swing.JMenuItem menuLoad;
+    private javax.swing.JMenuItem menuSave;
     private javax.swing.JTextArea txtOutput;
     // End of variables declaration//GEN-END:variables
 }
