@@ -19,6 +19,7 @@ public class ProductSalesApplication extends javax.swing.JFrame {
     private double average = 0;
     private int overLimit = 0;
     private int underLimit = 0;
+    private int years = 0;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ProductSalesApplication.class.getName());
 
@@ -41,7 +42,7 @@ public class ProductSalesApplication extends javax.swing.JFrame {
         btnSave = new javax.swing.JButton();
         btnLoad = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtOutput = new javax.swing.JTextArea();
         lblYearsProcessed = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -56,11 +57,11 @@ public class ProductSalesApplication extends javax.swing.JFrame {
         btnLoad.setText("Load Product Data");
         btnLoad.addActionListener(this::btnLoadActionPerformed);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtOutput.setColumns(20);
+        txtOutput.setRows(5);
+        jScrollPane1.setViewportView(txtOutput);
 
-        lblYearsProcessed.setText("jLabel1");
+        lblYearsProcessed.setText("Years Processed: ");
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -76,12 +77,11 @@ public class ProductSalesApplication extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(83, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblYearsProcessed, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane1)
-                        .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnLoad, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1)
+                    .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnLoad, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                    .addComponent(lblYearsProcessed, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(65, 65, 65))
         );
         layout.setVerticalGroup(
@@ -116,6 +116,16 @@ public class ProductSalesApplication extends javax.swing.JFrame {
             System.out.println("An error occurred while saving.");
             e.printStackTrace();
         }
+            
+        txtOutput.setText("DATA LOG");
+        txtOutput.append("\n************************");
+        txtOutput.append("\nTotal Sales: " + total);
+        txtOutput.append(String.format("\nAverage Sales: %.0f", average));
+        txtOutput.append("\nSales over limit: " + overLimit);
+        txtOutput.append("\nSales under limit: " + underLimit);
+        txtOutput.append("\n************************");
+        
+        lblYearsProcessed.setText("Years processed: " + years);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
@@ -123,7 +133,7 @@ public class ProductSalesApplication extends javax.swing.JFrame {
         overLimit = 0;
         underLimit = 0;
         int count = 0;
-        int years = 0;
+        years = 0;
         for (int r = 0; r < productSales.length; r++){
             for (int c = 0; c < productSales[r].length; c++){
                 total += productSales[r][c];
@@ -139,7 +149,7 @@ public class ProductSalesApplication extends javax.swing.JFrame {
         }
         average = total/count;
         
-
+        txtOutput.setText("Data Loaded");
     }//GEN-LAST:event_btnLoadActionPerformed
 
     /**
@@ -174,7 +184,7 @@ public class ProductSalesApplication extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel lblYearsProcessed;
+    private javax.swing.JTextArea txtOutput;
     // End of variables declaration//GEN-END:variables
 }
